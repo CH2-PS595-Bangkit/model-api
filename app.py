@@ -39,7 +39,7 @@ def predict():
         accuracy = float(predictions[0][predicted_class] * 100.0)
 
         # Assuming you have access to the user's token in your Flask app
-        user_token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsInVzZXJuYW1lIjoibmF1ZmFsIiwiZW1haWwiOiJiYmIxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzAyMzk2MTUxLCJleHAiOjE3MDQ5ODgxNTF9.J7XajuUMuAhf6CfXT3Q7koHyRbfsfkDmTLDdRTOACDY'  # Replace 'user_token_here' with the actual user's token
+        user_token = request.headers.get('Authorization').split('Bearer ')[1]
 
         # Send user's token in the header to Express
         express_url = 'http://localhost:3000/histories/'  # Replace with your Express URL
@@ -49,7 +49,7 @@ def predict():
         }
         headers = {
             'content-type': 'application/json',
-            'Authorization': f'Bearer {user_token}'  # Include the user's token in the header
+            'Authorization': f'{user_token}'  # Include the user's token in the header
         }
         response = requests.post(express_url, data=json.dumps(payload), headers=headers)
 
